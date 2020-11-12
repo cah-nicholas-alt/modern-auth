@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  id:
+    build: ./pursuit/id.pursuit/
+    container_name: id.pursuit.local
+    ports:
+      - 5000:5000
+    environment:
+      - ASPNETCORE_URLS=http://*:5000
+    networks:
+      - modern_auth
+networks:
+  modern_auth:
