@@ -28,24 +28,23 @@ namespace accounts.api.pursuit
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "accounts.api.pursuit", Version = "v1" });
-            });
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", (options) =>
+                {
+                    options.Authority = "http://id.pursuit.local:5000";
+                    options.Audience = "PursuitAccount.API";
+                    options.RequireHttpsMetadata = false;
+                });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "accounts.api.pursuit v1"));
-            }
-            
             app.UseRouting();
-
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
