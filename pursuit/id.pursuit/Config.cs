@@ -20,8 +20,7 @@ namespace id.pursuit
             {
                 new ApiScope(Scopes.ReadMortgage, "Read Mortgage Details"),
                 new ApiScope(Scopes.ApplyMortgage, "Apply for Mortgage"),
-                new ApiScope(Scopes.OpenAccount, "Open New Account"),
-                new ApiScope(Scopes.TransferFunds, "Transfer Funds to Another Account"),
+                new ApiScope(Scopes.AccountAdmin, "Open New Accounts and Transfer Funds from Account to Account"),
                 new ApiScope(Scopes.ReadAccounts, "Read Account Details"),
             };
 
@@ -30,12 +29,22 @@ namespace id.pursuit
             {
                 new Client
                 {
-                    ClientId = "Pursuit.Mortgage",
+                    ClientId = "Pursuit.Mortgage.Api",
                     ClientSecrets =
                     {
-                        new Secret("mortgage.123".Sha256())
+                        new Secret("securePassword!".Sha256())
                     },
-                    AllowedScopes = {Scopes.OpenAccount, Scopes.ReadAccounts},
+                    AllowedScopes = {Scopes.AccountAdmin, Scopes.ReadAccounts},
+                    AllowedGrantTypes = GrantTypes.ClientCredentials
+                },
+                new Client
+                {
+                    ClientId = "Pursuit.Mortgage.App",
+                    ClientSecrets =
+                    {
+                        new Secret("securePassword!".Sha256())
+                    },
+                    AllowedScopes = {Scopes.ApplyMortgage, Scopes.ReadMortgage},
                     AllowedGrantTypes = GrantTypes.ClientCredentials
                 }
             };
@@ -45,18 +54,17 @@ namespace id.pursuit
             {
                 new ApiResource
                 {
-                    Name = "PursuitAccount.API",
+                    Name = "http://accounts.api.pursuit:5001/",
                     DisplayName = "Pursuit Account API",
                     Scopes = new List<string>
                     {
-                        Scopes.OpenAccount,
                         Scopes.ReadAccounts,
-                        Scopes.TransferFunds
+                        Scopes.AccountAdmin
                     }
                 },
                 new ApiResource
                 {
-                    Name = "PursuitMortgage.API",
+                    Name = "http://mortgage.api.pursuit:5002/",
                     DisplayName = "Pursuit Mortgage API",
                     Scopes = new List<string>
                     {
@@ -71,8 +79,7 @@ namespace id.pursuit
     {
         public const string ReadMortgage = "PursuitMortgageApi.ReadMortgage";
         public const string ApplyMortgage = "PursuitMortgageApi.ApplyMortgage";
-        public const string ReadAccounts = "PursuitAccountApi.ReadAccounts";
-        public const string TransferFunds = "PursuitAccountApi.TransferFunds";
-        public const string OpenAccount = "PursuitAccountApi.OpenAccounts";
+        public const string ReadAccounts = "PursuitAccountsApi.ReadAccounts";
+        public const string AccountAdmin = "PursuitAccountsApi.Admin";
     }
 }

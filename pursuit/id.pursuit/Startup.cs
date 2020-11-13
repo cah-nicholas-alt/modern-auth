@@ -29,6 +29,7 @@ namespace id.pursuit
                 {
                     // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                     options.EmitStaticAudienceClaim = true;
+                    options.AccessTokenJwtType = "JWT";
                 })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
@@ -36,7 +37,7 @@ namespace id.pursuit
                 .AddInMemoryClients(Config.Clients);
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
-            
+
             services.AddRouting();
         }
 
@@ -56,7 +57,7 @@ namespace id.pursuit
             app.UseRouting();
             app.UseEndpoints(builder =>
             {
-                builder.MapGet("/ping", 
+                builder.MapGet("/ping",
                     async (r) => await r.Response.WriteAsync("pong"));
             });
 
