@@ -10,6 +10,8 @@ services:
       - ASPNETCORE_URLS=http://*:5000
     networks:
       - modern_auth
+
+#APIS
   accounts.api:
     build: ./pursuit/accounts.api.pursuit/
     container_name: accounts.api.pursuit.local
@@ -27,6 +29,14 @@ services:
     networks:
       - modern_auth
 
+#Apps
+  accounts.app:
+    build: ./pursuit/accounts.app.pursuit/
+    container_name: accounts.app.pursuit.local
+    ports:
+      - 5003:5003
+    networks:
+      - modern_auth
 
 networks:
   modern_auth:
