@@ -5,11 +5,11 @@ import { useLoginContext } from "./LoginContext";
 import { useHistory } from "react-router-dom";
 
 function Navigation() {
-    const { isLoggedIn, setLoggedIn } = useLoginContext();
+    const { loginState, setLoginState } = useLoginContext();
     const history = useHistory();
 
     function handleLogout() {
-        setLoggedIn(false);
+        setLoginState(null);
         history.push("/login");
     }
 
@@ -21,16 +21,25 @@ function Navigation() {
             <Navbar.Toggle />
             <Navbar.Collapse>
                 <Nav activeKey={window.location.pathname}>
-                    <LinkContainer to="account">
-                        <Nav.Link>
-                            Acount
-                        </Nav.Link>
-                    </LinkContainer>
+                    { loginState &&
+                        <>
+                            <LinkContainer to="account">
+                                <Nav.Link>
+                                    Acount
+                                </Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to="token">
+                                <Nav.Link>
+                                    Token
+                                </Nav.Link>
+                            </LinkContainer>
+                        </>
+                    }
                 </Nav>
                 <Nav activeKey={window.location.pathname} className="ml-auto">
-                    { isLoggedIn
-                        ? (<Button onClick={handleLogout}>Logout</Button>)
-                        : (<LinkContainer to="login" >
+                    { loginState
+                        ? ( <Button onClick={handleLogout}>Logout</Button>)
+                        : ( <LinkContainer to="login" >
                                 <Nav.Link >
                                     <Button>Login</Button>
                                 </Nav.Link>

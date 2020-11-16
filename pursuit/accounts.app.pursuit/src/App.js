@@ -4,26 +4,34 @@ import AccountHome from "./AccountHome";
 import Login from "./Login";
 import { LoginContext } from "./LoginContext";
 import { useState } from "react";
+import Token from "./Token";
 
 function App() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+    const [loginState, setLoginState] = useState(null);
 
-  return (
-  <LoginContext.Provider value={{isLoggedIn, setLoggedIn}}>
-      <Router>
-        <Navigation />
-        <Switch>
-          <Route path="/Login" component={Login} />
-          <Route>
-            {isLoggedIn
-              ? (<AccountHome />)
-              : (<Redirect to="/Login" />)
-            }
-          </Route>
-        </Switch>
-      </Router>
-    </LoginContext.Provider>
-  );
+    return (
+        <LoginContext.Provider value={{ loginState, setLoginState }}>
+            <Router>
+                <Navigation />
+                <Switch>
+                    <Route path="/Login" component={Login} />
+                    { loginState
+                        ? ( <>
+                                <Switch>
+                                    <Route path="/token">
+                                        <Token />
+                                    </Route>
+                                    <Route>
+                                        <AccountHome />
+                                    </Route>
+                                </Switch>
+                            </>)
+                        : ( <Redirect to="/Login" />)
+                    }
+                </Switch>
+            </Router>
+        </LoginContext.Provider>
+    );
 }
 
 export default App;

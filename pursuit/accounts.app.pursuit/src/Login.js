@@ -1,45 +1,58 @@
 import { useState } from "react";
-import { Button, Card, Container, Form } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { Alert, Button, Card, Container, Form } from "react-bootstrap";
+import { Redirect, useHistory } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useLoginContext } from "./LoginContext";
 
 function Login() {
+    const { loginState, setLoginState } = useLoginContext();
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState("");
 
-    const { setLoggedIn } = useLoginContext();
     const history = useHistory();
+
+    if (loginState)
+        return <Redirect to="/account" />
 
     function validateForm() {
         return username.length > 0 && password.length > 0;
     }
 
-    async function handleSubmit(event) {
+    function handleSubmitPasswordFlow(event) {
         event.preventDefault();
-
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
         setSubmitting(true);
-        await sleep(500);
-        if (username === 'alice' && password === "a123")
-        {
-            setLoggedIn(true);
+
+        const client_id = "Pursuit.Accounts.App";
+
+        fetch("http://id.pursuit.local:5000/connect/token", {
+            method: "POST",
+            body: `grant_type=password&client_id=${client_id}&username=${username}&password=${password}`,
+            headers: { "Content-Type": "application/x-www-form-urlencoded"}
+        }).then(resp => {
+            if (!resp.ok) { throw resp };
+            return resp.json();
+        }).then(json => {
+            setLoginState({
+                token: json.access_token
+            });
             history.push("/");
-        }
+        }).catch(errResp => {
+            errResp.json
+                ? errResp.json().then(json => setError(json.error_description))
+                : setError("System error, please try again.");
+        }).finally(() => {
+            setSubmitting(false);
+        });
 
-
-        setSubmitting(false);
     }
 
     return (
        <Container className={`${styles.loginCard} mt-3`}>
            <Card className="p-5">
-                <Form onSubmit={handleSubmit} className="">
+                <Form onSubmit={handleSubmitPasswordFlow} className="">
                     <Form.Group size="lg" controlId="username">
                         <Form.Label>Username</Form.Label>
                         <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -51,10 +64,11 @@ function Login() {
                     <Button block size="lg" type="submit" disabled={!validateForm() || submitting}>
                         Login
                     </Button>
+                    {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
                 </Form>
-        </Card>
+            </Card>
        </Container>
-    )
+    );
 }
 
 export default Login;

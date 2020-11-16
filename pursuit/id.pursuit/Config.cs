@@ -3,6 +3,7 @@
 
 
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 using System.Collections.Generic;
 
 namespace id.pursuit
@@ -45,7 +46,15 @@ namespace id.pursuit
                         new Secret("securePassword!".Sha256())
                     },
                     AllowedScopes = {Scopes.ApplyMortgage, Scopes.ReadMortgage},
-                    AllowedGrantTypes = GrantTypes.ClientCredentials
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    RequireClientSecret = false
+                },
+                new Client
+                {
+                    ClientId = "Pursuit.Accounts.App",
+                    AllowedScopes = {Scopes.ReadAccounts, Scopes.AccountAdmin},
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    RequireClientSecret = false
                 }
             };
 
@@ -71,6 +80,23 @@ namespace id.pursuit
                         Scopes.ApplyMortgage,
                         Scopes.ReadMortgage
                     }
+                }
+            };
+
+        public static List<TestUser> GetUsers() =>
+            new List<TestUser>
+            {
+                new TestUser
+                {
+                    SubjectId = "33164480B55C461691A6EA458C2AC614",
+                    Username = "alice",
+                    Password = "password"
+                },
+                new TestUser
+                {
+                    SubjectId = "483B25A568074E8F8CBA23AE18F4086E",
+                    Username = "bob",
+                    Password = "password"
                 }
             };
     }
