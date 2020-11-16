@@ -37,9 +37,9 @@ function Login() {
     }
 
     return (
-       <Container className="mt-3">
-           <Card className={`p-5`}>
-                <Form onSubmit={handleSubmit}>
+       <Container className={`${styles.loginCard} mt-3`}>
+           <Card className="p-5">
+                <Form onSubmit={handleSubmit} className="">
                     <Form.Group size="lg" controlId="username">
                         <Form.Label>Username</Form.Label>
                         <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -52,7 +52,7 @@ function Login() {
                         Login
                     </Button>
                 </Form>
-            </Card>
+        </Card>
        </Container>
     )
 }
