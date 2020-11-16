@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Card, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useLoginContext } from "./LoginContext";
@@ -37,21 +37,23 @@ function Login() {
     }
 
     return (
-        <div className={styles.login}>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group size="lg" controlId="username">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </Form.Group>
-                <Form.Group size="lg" controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </Form.Group>
-                <Button block size="lg" type="submit" disabled={!validateForm() || submitting}>
-                    Login
-                </Button>
-            </Form>
-        </div>
+       <Container className="mt-3">
+           <Card className={`p-5`}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group size="lg" controlId="username">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control autoFocus type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group size="lg" controlId="password">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </Form.Group>
+                    <Button block size="lg" type="submit" disabled={!validateForm() || submitting}>
+                        Login
+                    </Button>
+                </Form>
+            </Card>
+       </Container>
     )
 }
 

@@ -2,7 +2,6 @@
 
 body {
     background-color: #ddd;
-    color: #eee;
     font-family: 'Cairo';
 }
 
@@ -13,10 +12,10 @@ body {
 /*boostrap fixes*/
 .btn:focus, a:focus
 {
-         outline: none;
+    outline: none;
 }
 .navbar-toggler:focus
 {
-         outline: none !important;
-         box-shadow: none;
+    outline: none !important;
+    box-shadow: none;
 }
