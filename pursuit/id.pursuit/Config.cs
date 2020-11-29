@@ -63,7 +63,7 @@ namespace id.pursuit
             {
                 new ApiResource
                 {
-                    Name = "http://accounts.api.pursuit:5001/",
+                    Name = "http://accounts.api.pursuit.local:5001/",
                     DisplayName = "Pursuit Account API",
                     Scopes = new List<string>
                     {
@@ -73,7 +73,7 @@ namespace id.pursuit
                 },
                 new ApiResource
                 {
-                    Name = "http://mortgage.api.pursuit:5002/",
+                    Name = "http://mortgage.api.pursuit.local:5002/",
                     DisplayName = "Pursuit Mortgage API",
                     Scopes = new List<string>
                     {

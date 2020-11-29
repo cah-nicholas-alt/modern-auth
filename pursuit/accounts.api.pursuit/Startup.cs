@@ -33,9 +33,11 @@ namespace accounts.api.pursuit
                 .AddJwtBearer("Bearer", (options) =>
                 {
                     options.Authority = "http://id.pursuit.local:5000";
-                    options.Audience = "http://accounts.api.pursuit:5001/";
+                    options.Audience = "http://accounts.api.pursuit.local:5001/";
                     options.RequireHttpsMetadata = false;
-                });
+            });
+
+            services.AddCors();
 
         }
 
@@ -43,7 +45,13 @@ namespace accounts.api.pursuit
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseRouting();
-            
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+
             app.UseAuthentication();
             app.UseAuthorization();
 
