@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   id:
@@ -11,7 +11,7 @@ services:
     networks:
       - modern_auth
 
-#APIS
+  #APIS
   accounts.api:
     build: ./pursuit/accounts.api.pursuit/
     container_name: accounts.api.pursuit.local
@@ -29,12 +29,22 @@ services:
     networks:
       - modern_auth
 
-#Apps
+  #Apps
   accounts.app:
     build: ./pursuit/accounts.app.pursuit/
     container_name: accounts.app.pursuit.local
     ports:
       - 5003:5003
+    networks:
+      - modern_auth
+
+  coin.app:
+    build: ./coin/app.coin/
+    container_name: app.coin.local
+    ports:
+      - 5004:5004
+    environment:
+      - ASPNETCORE_URLS=http://*:5004
     networks:
       - modern_auth
 
