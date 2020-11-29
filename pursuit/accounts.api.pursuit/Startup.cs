@@ -35,7 +35,7 @@ namespace accounts.api.pursuit
                     options.Authority = "http://id.pursuit.local:5000";
                     options.Audience = "http://accounts.api.pursuit.local:5001/";
                     options.RequireHttpsMetadata = false;
-            });
+                });
 
             services.AddCors();
 
@@ -46,11 +46,13 @@ namespace accounts.api.pursuit
         {
             app.UseRouting();
             app.UseCors(options =>
-            {
-                options.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            });
+                options
+                    .SetIsOriginAllowed(o =>
+                        new Uri(o).Host.EndsWith("pursuit.local")
+                        || new Uri(o).Host == "localhost")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+            );
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -59,7 +59,7 @@ namespace id.pursuit
             };
 
         public static IEnumerable<ApiResource> ApiResources =>
-            new []
+            new[]
             {
                 new ApiResource
                 {
@@ -96,6 +96,12 @@ namespace id.pursuit
                 {
                     SubjectId = "483B25A568074E8F8CBA23AE18F4086E",
                     Username = "bob",
+                    Password = "password"
+                },
+                new TestUser
+                {
+                    SubjectId = "0860256F8C5A466F879D1644919B2DE8",
+                    Username = "chris",
                     Password = "password"
                 }
             };

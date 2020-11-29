@@ -1,33 +1,42 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
-import { Card, Container } from 'react-bootstrap';
+import { Button, Card, Container } from 'react-bootstrap';
 import { useLoginContext } from './LoginContext';
+import { TransferModal } from './TransferModal';
 
 function AccountHome() {
   const { loginState } = useLoginContext();
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const loadAccount = useCallback(async () => {
+    const resp = await fetch('http://accounts.api.pursuit.local:5001/accounts', {
+      headers: {
+        Authorization: `Bearer ${loginState.token}`,
+      },
+    });
+    const json = await resp.json();
+    setAccount(json);
+  }, [loginState]);
 
   useEffect(() => {
-    const fn = async () => {
-      const resp = await fetch('http://accounts.api.pursuit.local:5001/account', {
-        headers: {
-          Authorization: `Bearer ${loginState.token}`,
-        },
-      });
-      const json = await resp.json();
-      // await new Promise((resolve) => setTimeout(resolve, 500));
-      setAccount(json);
-    };
-
-    fn();
-  }, [loginState]);
+    loadAccount();
+  }, [loginState, loadAccount]);
 
   return (
     <Container className="mt-3">
-      <Card className="text-dark p-3">
-        <div>Account Home</div>
-        <div>Balance: {account && account[0].balance}</div>
-      </Card>
+      {account.map((a) => (
+        <Card className="text-dark p-3 mt-3">
+          <div>{a.accountName}</div>
+          <div>Balance: {a && a.balance}</div>
+        </Card>
+      ))}
+
+      <Button className="mt-3" onClick={() => setShowModal(true)}>
+        Transfer Funds
+      </Button>
+
+      <TransferModal show={showModal} onHide={() => setShowModal(false)} onRequestReload={loadAccount} />
     </Container>
   );
 }

@@ -42,6 +42,7 @@ function Login() {
         setLoginState({
           token: json.access_token,
           decodedToken: jwtDecode(json.access_token),
+          userId: jwtDecode(json.access_token).sub,
         });
         history.push('/');
       })
