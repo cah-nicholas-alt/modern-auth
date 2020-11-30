@@ -23,8 +23,7 @@ namespace id.pursuit
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // uncomment, if you want to add an MVC-based UI
-            //services.AddControllersWithViews();
+            services.AddControllersWithViews();
 
             var builder = services.AddIdentityServer(options =>
                 {
@@ -56,25 +55,14 @@ namespace id.pursuit
                 .SetIsOriginAllowed(_ => true)
                 .AllowCredentials());
 
-            // uncomment if you want to add MVC
-            //app.UseStaticFiles();
-            //app.UseRouting();
+
+            app.UseStaticFiles();
 
             app.UseIdentityServer();
 
             app.UseRouting();
-            app.UseEndpoints(builder =>
-            {
-                builder.MapGet("/ping",
-                    async (r) => await r.Response.WriteAsync("pong"));
-            });
-
-            // uncomment, if you want to add MVC
-            //app.UseAuthorization();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapDefaultControllerRoute();
-            //});
+            app.UseAuthorization();
+            app.UseEndpoints(builder => builder.MapDefaultControllerRoute());
         }
     }
 }
