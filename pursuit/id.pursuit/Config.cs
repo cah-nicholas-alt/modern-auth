@@ -55,6 +55,24 @@ namespace id.pursuit
                     AllowedScopes = {Scopes.ReadAccounts, Scopes.AccountAdmin},
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     RequireClientSecret = false
+                },
+                new Client
+                {
+                    ClientId = "Coin.App",
+                    ClientName = "Coin",
+                    ClientSecrets =
+                    {
+                        new Secret("securePassword!".Sha256())
+                    },
+                    RedirectUris =
+                    {
+                        "http://app.coin.local:5004/dashboard/linkaccountcallback"
+                    },
+                    AllowedScopes = {Scopes.ReadAccounts },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = true,
+                    RequirePkce = false,
+                    RequireConsent = true
                 }
             };
 

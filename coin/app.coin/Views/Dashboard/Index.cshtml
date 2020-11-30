@@ -1,0 +1,75 @@
+﻿@model DashbordViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h3 class="display-4 m-3">Welcome @User.Identity.Name</h3>
+
+    @if (Model.Accounts.Count > 0)
+    {
+    <div class="card p-3">
+        @foreach (var account in Model.Accounts)
+        {
+            <h2 class="text-left">@account.AccountName: @account.Balance</h2>
+        }
+
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link text-left" data-toggle="collapse" data-target="#tokenCollapse">
+                        Raw Token
+                    </button>
+                </h5>
+            </div>
+
+            <div id="tokenCollapse" class="collapse" data-parent="#accordion">
+                <div class="card-body text-left">
+                    @Model.Token
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link text-left" data-toggle="collapse" data-target="#payloadCollapse">
+                        Token Payload
+                    </button>
+                </h5>
+            </div>
+
+            <div id="payloadCollapse" class="collapse" data-parent="#accordion">
+                <div class="card-body text-left">
+                    <pre>@Model.TokenPayload</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    }
+    else
+    {
+    <h4>No Bank Accounts Linked, Please Link an Account</h4>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#linkAccountModal">Link Account</button>
+    }
+
+    <div class="modal" id="linkAccountModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    @using (Html.BeginForm("LinkAccount", "Dashboard", FormMethod.Post, new { id = "loginform" }))
+                    {
+                        <div class="bg-primary rounded mr-auto ml-auto">
+                            <input type="image" src="~/pursuit-logo.png" id="Logout" class="" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

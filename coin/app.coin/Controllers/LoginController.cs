@@ -29,7 +29,7 @@ namespace app.coin.Controllers
                     new List<Claim> { new Claim(ClaimTypes.Name, viewModel.Email) },
                     CookieAuthenticationDefaults.AuthenticationScheme)));
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> LogoutAsync()

@@ -31,6 +31,7 @@ namespace id.pursuit
                     options.EmitStaticAudienceClaim = true;
                     options.AccessTokenJwtType = "JWT";
                 })
+                .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryApiResources(Config.ApiResources)
@@ -62,7 +63,10 @@ namespace id.pursuit
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(builder => builder.MapDefaultControllerRoute());
+            app.UseEndpoints(builder => 
+                builder.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=account}/{action=Index}/{id?}"));
         }
     }
 }

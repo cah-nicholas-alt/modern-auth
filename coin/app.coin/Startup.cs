@@ -38,7 +38,7 @@ namespace app.coin
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Dashboard/Error");
             }
 
             app.UseStaticFiles();
@@ -52,7 +52,7 @@ namespace app.coin
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
             });
         }
     }

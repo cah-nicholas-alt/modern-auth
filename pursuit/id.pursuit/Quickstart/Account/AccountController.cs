@@ -52,6 +52,12 @@ namespace IdentityServerHost.Quickstart.UI
             _events = events;
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return RedirectToAction("Login");
+        }
+
         /// <summary>
         /// Entry point into the login workflow
         /// </summary>
