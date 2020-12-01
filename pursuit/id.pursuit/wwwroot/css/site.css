@@ -22,3 +22,17 @@
       height: 100px; }
   .grants-page .card label {
     font-weight: bold; }
+
+
+    .navBarShort {
+      height: 3rem;
+      max-height: 5rem;
+  }
+
+  .logoLarge {
+      height: 3rem;
+  }
+
+  .bg-dark {
+    background-color: #13305a!important;
+}
