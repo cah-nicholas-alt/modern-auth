@@ -11,9 +11,13 @@ In order to demonstrate the cross domain capabilities of OAUTH and OIDC add the 
 
 # Applications
 Pursuit Id: http://id.pursuit.local:5000
+
 Pursuit Account App: http://accounts.app.pursuit.local:5003
+
 Pursuit Mortgage App:
+
 Pursuit Acount API: http://accounts.api.pursuit.local:5001
+
 Pursuit Mortgage API: http://mortgage.api.pursuit.local:5002
 
 Coin App: http://app.coin.local:5004
