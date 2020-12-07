@@ -10,7 +10,7 @@ function AccountHome() {
   const [showModal, setShowModal] = useState(false);
 
   const loadAccount = useCallback(async () => {
-    const resp = await fetch('http://accounts.api.pursuit.local:5001/accounts', {
+    const resp = await fetch('http://accounts.api.pursuit.local:5001/api/accounts', {
       headers: {
         Authorization: `Bearer ${loginState.token}`,
       },

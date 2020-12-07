@@ -17,7 +17,7 @@ export function TransferModal({ onRequestReload, onHide, ...rest }) {
 
   useEffect(() => {
     const fn = async () => {
-      var resp = await fetch('http://accounts.api.pursuit.local:5001/accounts/all');
+      var resp = await fetch('http://accounts.api.pursuit.local:5001/api/accounts/all');
       var json = await resp.json();
       setAccountList(json);
     };
@@ -29,7 +29,7 @@ export function TransferModal({ onRequestReload, onHide, ...rest }) {
     e.preventDefault();
     console.log(e);
 
-    await fetch('http://accounts.api.pursuit.local:5001/accounts/', {
+    await fetch('http://accounts.api.pursuit.local:5001/api/accounts/transfer', {
       method: 'POST',
       body: JSON.stringify({
         sourceAccount,

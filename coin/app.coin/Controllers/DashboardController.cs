@@ -36,14 +36,14 @@ namespace app.coin.Controllers
             {
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", t.token);
-                var resp = await client.GetFromJsonAsync<List<ExternalAccount>>("http://accounts.api.pursuit.local:5001/accounts");
+                var resp = await client.GetFromJsonAsync<List<ExternalAccount>>("http://accounts.api.pursuit.local:5001/api/accounts");
 
                 vm = new DashbordViewModel(resp, t.token, t.payload);
             }
 
             return View(vm);
         }
-        
+
         [HttpPost]
         public IActionResult LinkAccount()
         {

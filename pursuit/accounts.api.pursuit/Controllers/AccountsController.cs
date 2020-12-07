@@ -12,8 +12,8 @@ namespace accounts.api.pursuit.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
-    public class AccountsController : ControllerBase
+    [Route("api/[controller]")]
+    public partial class AccountsController : ControllerBase
     {
         private readonly ILogger<AccountsController> _logger;
         private Guid UserId => Guid.Parse(User?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
@@ -34,8 +34,8 @@ namespace accounts.api.pursuit.Controllers
         [HttpGet("all")]
         public IEnumerable GetAccountList()
         {
-            return AccountRepo.Accounts.Select(a => 
-                new 
+            return AccountRepo.Accounts.Select(a =>
+                new
                 {
                     a.AccountId,
                     a.AccountName,
@@ -44,7 +44,7 @@ namespace accounts.api.pursuit.Controllers
                 });
         }
 
-        [HttpPost]
+        [HttpPost("transfer")]
         public void SendFunds(SendFundsRequest request)
         {
             var (sourceAccount, targetAccount, amount) = request;
@@ -64,6 +64,10 @@ namespace accounts.api.pursuit.Controllers
             source.Balance -= amount;
         }
 
-        public record SendFundsRequest(Guid SourceAccount, Guid TargetAccount, decimal Amount);
+        [HttpPost()]
+        public void CreateAccount(Account account)
+        {
+            AccountRepo.Accounts.Add(account);
+        }
     }
 }
