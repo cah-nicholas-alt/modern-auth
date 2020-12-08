@@ -3,11 +3,20 @@ import Navigation from './Navigation';
 import AccountHome from './AccountHome';
 import Login from './Login';
 import { LoginContext } from './LoginContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Token from './Token';
 
 function App() {
-  const [loginState, setLoginState] = useState(null);
+  let initLoginState = localStorage.getItem('session');
+  if (initLoginState) {
+    initLoginState = JSON.parse(initLoginState) || null;
+  }
+
+  const [loginState, setLoginState] = useState(initLoginState);
+
+  useEffect(() => {
+    localStorage.setItem('session', JSON.stringify(loginState));
+  }, [loginState]);
 
   return (
     <LoginContext.Provider value={{ loginState, setLoginState }}>
