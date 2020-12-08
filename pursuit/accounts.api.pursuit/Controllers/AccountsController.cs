@@ -65,9 +65,11 @@ namespace accounts.api.pursuit.Controllers
         }
 
         [HttpPost()]
-        public void CreateAccount(Account account)
+        public Guid CreateAccount(Account account)
         {
             AccountRepo.Accounts.Add(account);
+
+            return account.AccountId;
         }
     }
 }

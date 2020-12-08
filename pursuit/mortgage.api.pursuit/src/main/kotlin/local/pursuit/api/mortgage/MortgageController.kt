@@ -5,11 +5,13 @@ import local.pursuit.api.mortgage.models.Account
 import local.pursuit.api.mortgage.models.AccountType
 import local.pursuit.api.mortgage.models.Mortgage
 import local.pursuit.api.mortgage.models.MortgageApplication
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.client.ClientHttpRequestInterceptor
+import org.springframework.http.converter.StringHttpMessageConverter
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.*
@@ -21,7 +23,7 @@ import java.util.UUID
 @RestController()
 @RequestMapping("api")
 @PreAuthorize("isAuthenticated()")
-class MortgageController  {
+class MortgageController(@Autowired var mortgageRepo: MortgageRepo) {
 
     @Value("\${clientId}")
     val clientId: String = "";
@@ -33,8 +35,8 @@ class MortgageController  {
     var authorizeUrl: String = "";
 
     @GetMapping("/mortgages")
-    fun getMortgages() : List<Mortgage> {
-        return listOf(Mortgage(UUID.randomUUID(), "123 Main Street"))
+    fun getMortgages(principal: Principal) : List<Mortgage> {
+        return mortgageRepo.mortgages.filter { m -> m.userId == getUUID(principal.name) };
     }
 
     @PostMapping("/mortgages/apply")
@@ -43,10 +45,13 @@ class MortgageController  {
 
         val newAccount = Account(AccountType.Mortgage, application.principal, getUUID(principal.name));
         val template = RestTemplate();
+        template.messageConverters = template.messageConverters.filter { c -> c::class != StringHttpMessageConverter::class }
         template.interceptors.add(ClientHttpRequestInterceptor { httpRequest, bytes, clientHttpRequestExecution ->
             httpRequest.headers.add("Authorization", "Bearer $token"); clientHttpRequestExecution.execute(httpRequest, bytes);});
 
-        template.postForObject("http://accounts.api.pursuit.local:5001/api/accounts", newAccount, Unit::class.java);
+        val accountId = template.postForObject("http://accounts.api.pursuit.local:5001/api/accounts", newAccount, String::class.java);
+
+        mortgageRepo.mortgages.add(Mortgage(UUID.randomUUID(), application.address, getUUID(principal.name), UUID.fromString(accountId)));
     }
 
     private fun getAccessToken(): String {

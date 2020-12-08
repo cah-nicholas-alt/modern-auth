@@ -10,8 +10,7 @@ namespace accounts.api.pursuit
                 new Account(Users.Alice, AccountType.Savings, 1000),
                 new Account(Users.Bob, AccountType.Savings, 1000),
                 new Account(Users.Bob, AccountType.Checking, 1000),
-                new Account(Users.Chris, AccountType.Savings, 1000),
-                new Account(Users.Chris, AccountType.Mortgage, -200000),
+                new Account(Users.Chris, AccountType.Checking, 1000)
             };
     }
 }
