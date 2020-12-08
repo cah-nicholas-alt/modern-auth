@@ -21,3 +21,6 @@ Pursuit Acount API: http://accounts.api.pursuit.local:5001
 Pursuit Mortgage API: http://mortgage.api.pursuit.local:5002
 
 Coin App: http://app.coin.local:5004
+
+# Cookie Settings
+As we are running locally running on HTTP you will need to enable the chome setting: `Cookies without SameSite must be secure` otherwise chrome may block our non-secure, non-same site cookies.

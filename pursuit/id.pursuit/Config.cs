@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace id.pursuit
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
             {
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -45,14 +47,24 @@ namespace id.pursuit
                     {
                         new Secret("securePassword!".Sha256())
                     },
-                    AllowedScopes = {Scopes.ApplyMortgage, Scopes.ReadMortgage},
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
-                    RequireClientSecret = false
+                    AllowedScopes = {
+                        Scopes.ApplyMortgage,
+                        Scopes.ReadMortgage,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false,
+                    RedirectUris =
+                    {
+                        "http://mortgage.app.pursuit.local:5005/signin-oidc"
+                    },
+                    PostLogoutRedirectUris = { "http://mortgage.app.pursuit.local:5005/signout-callback-oidc" },
                 },
                 new Client
                 {
                     ClientId = "Pursuit.Accounts.App",
-                    AllowedScopes = {Scopes.ReadAccounts, Scopes.AccountAdmin},
+                    AllowedScopes = {Scopes.ReadAccounts, Scopes.AccountAdmin },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     RequireClientSecret = false
                 },
