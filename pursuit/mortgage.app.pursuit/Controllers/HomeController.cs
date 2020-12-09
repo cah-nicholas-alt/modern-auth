@@ -25,7 +25,7 @@ namespace mortgage.app.pursuit.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool authChallenge = true)
         {
             HomeViewModel viewModel = null;
             if (User.Identity.IsAuthenticated)
@@ -47,6 +47,15 @@ namespace mortgage.app.pursuit.Controllers
                 }
 
                 viewModel = new HomeViewModel(mortgages);
+            }
+            else
+            {
+                if (authChallenge)
+                {
+                    var props = new AuthenticationProperties();
+                    props.Items["prompt"] = "none";
+                    await HttpContext.ChallengeAsync("oidc", props);
+                }
             }
 
             return View(viewModel);

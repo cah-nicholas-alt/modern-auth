@@ -42,6 +42,25 @@ namespace mortgage.app.pursuit
                 options.Scope.Add("PursuitMortgageApi.ApplyMortgage");
                 options.Scope.Add("PursuitMortgageApi.ReadMortgage");
                 options.Scope.Add("PursuitAccountsApi.ReadAccounts");
+                options.Events.OnRemoteFailure = (context) =>
+                {
+                    if (context.Properties.Items.ContainsKey("prompt") && context.Properties.Items["prompt"] == "none")
+                    {
+                        context.Response.Redirect("/home?authChallenge=false");
+                        context.HandleResponse();
+                    }
+
+                    return Task.CompletedTask;
+                };
+                options.Events.OnRedirectToIdentityProvider = (context) =>
+                {
+                    if (context.Properties.Items.TryGetValue("prompt", out var prompt))
+                    {
+                        context.ProtocolMessage.Prompt = prompt;
+                    }
+
+                    return Task.CompletedTask;
+                };
             });
         }
 
