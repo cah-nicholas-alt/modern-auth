@@ -50,6 +50,7 @@ namespace id.pursuit
                     AllowedScopes = {
                         Scopes.ApplyMortgage,
                         Scopes.ReadMortgage,
+                        Scopes.ReadAccounts,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     },

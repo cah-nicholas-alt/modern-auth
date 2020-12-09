@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using mortgage.app.pursuit.Models;
+using System.Net.Http.Json;
 
 namespace mortgage.app.pursuit.Controllers
 {
@@ -21,9 +25,41 @@ namespace mortgage.app.pursuit.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HomeViewModel viewModel = null;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                var mortgages = await client.GetFromJsonAsync<List<Mortgage>>("http://mortgage.api.pursuit.local:5002/api/mortgages");
+                var accounts = await client.GetFromJsonAsync<List<Account>>("http://accounts.api.pursuit.local:5001/api/accounts");
+                
+                for(int i = 0; i < mortgages.Count; i++)
+                {
+                    var balance = accounts.FirstOrDefault(a => a.AccountId == mortgages[i].AccountId)
+                        ?.Balance ?? 0m;
+
+                    mortgages[i] = mortgages[i] with { Balance = balance };
+                }
+
+                viewModel = new HomeViewModel(mortgages);
+            }
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Apply(HomeViewModel viewModel)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            await client.PostAsJsonAsync<MortgageApplication>("http://mortgage.api.pursuit.local:5002/api/mortgages/apply", viewModel.Application);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Token()

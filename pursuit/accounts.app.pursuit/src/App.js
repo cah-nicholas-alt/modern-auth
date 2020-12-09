@@ -16,6 +16,10 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('session', JSON.stringify(loginState));
+    if (loginState) {
+      const timeout = setTimeout(() => setLoginState(null), loginState.exp - new Date().getTime());
+      return () => clearTimeout(timeout);
+    }
   }, [loginState]);
 
   return (

@@ -43,7 +43,7 @@ class MortgageController(@Autowired var mortgageRepo: MortgageRepo) {
     fun applyMortgage(@RequestBody application: MortgageApplication, principal: Principal) {
         val token = getAccessToken();
 
-        val newAccount = Account(AccountType.Mortgage, application.principal, getUUID(principal.name));
+        val newAccount = Account(AccountType.Mortgage, -1 * application.principal, getUUID(principal.name));
         val template = RestTemplate();
         template.messageConverters = template.messageConverters.filter { c -> c::class != StringHttpMessageConverter::class }
         template.interceptors.add(ClientHttpRequestInterceptor { httpRequest, bytes, clientHttpRequestExecution ->

@@ -41,6 +41,7 @@ function Login() {
       .then((json) => {
         setLoginState({
           token: json.access_token,
+          exp: new Date().getTime() + json.expires_in * 1000,
           decodedToken: jwtDecode(json.access_token),
           userId: jwtDecode(json.access_token).sub,
         });

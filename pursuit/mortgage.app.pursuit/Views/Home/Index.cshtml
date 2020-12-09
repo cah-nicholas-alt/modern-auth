@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Authentication
+@model HomeViewModel;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -6,27 +7,39 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <h2>HOME</h2>
+    if (Model.Mortgages.Count == 0)
+    {
+        <div class="card mt-3 p-3">
+            <h3>You have no mortgages with Pursuit, Apply Now!</h3>
+        </div>
+    }
+    foreach (var mortgage in Model.Mortgages)
+    {
+        <div class="card mt-3 p-3">
+            <div>@mortgage.Address</div>
+            <div>Balance: <span>@mortgage.Balance</span></div>
+        </div>
+    }
 
-    <dl>
-        @foreach (var claim in User.Claims)
+    <div class="card p-5 mt-3">
+        <h3>Apply for a mortgage:</h3>
+        @using (Html.BeginForm("Apply", "Home", FormMethod.Post, new { id = "applicationForm" }))
         {
-            <dt>@claim.Type</dt>
-            <dd>@claim.Value</dd>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Application.Address)
+                @Html.EditorFor(m => m.Application.Address, new { htmlAttributes = new { @class = "form-control", type = "text" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Application.Principal)
+                @Html.EditorFor(m => m.Application.Principal, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         }
-    </dl>
-
-    <h2>Properties</h2>
-
-    <dl>
-        @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
-        {
-            <dt>@prop.Key</dt>
-            <dd>@prop.Value</dd>
-        }
-    </dl>
+    </div>
 }
 else
 {
-    <h1>You Must Log In!</h1>
+<div class="card mt-3 p-3">
+    <h3>Welcom to Pursuit Mortgage, Please Log In</h3>
+</div>
 }

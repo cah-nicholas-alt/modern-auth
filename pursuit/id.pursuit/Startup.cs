@@ -63,7 +63,7 @@ namespace id.pursuit
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(builder => 
+            app.UseEndpoints(builder =>
                 builder.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=account}/{action=Index}/{id?}"));

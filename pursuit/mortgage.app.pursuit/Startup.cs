@@ -41,6 +41,7 @@ namespace mortgage.app.pursuit
                 options.SaveTokens = true;
                 options.Scope.Add("PursuitMortgageApi.ApplyMortgage");
                 options.Scope.Add("PursuitMortgageApi.ReadMortgage");
+                options.Scope.Add("PursuitAccountsApi.ReadAccounts");
             });
         }
 
