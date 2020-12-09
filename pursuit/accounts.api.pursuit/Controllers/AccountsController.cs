@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace accounts.api.pursuit.Controllers
 {
-    [Authorize]
+
     [ApiController]
     [Route("api/[controller]")]
     public partial class AccountsController : ControllerBase
@@ -24,6 +24,7 @@ namespace accounts.api.pursuit.Controllers
         }
 
         [HttpGet]
+        [Authorize("read")]
         public IEnumerable<Account> Get()
         {
             return AccountRepo.Accounts.Where(a =>
@@ -45,6 +46,7 @@ namespace accounts.api.pursuit.Controllers
         }
 
         [HttpPost("transfer")]
+        [Authorize("admin")]
         public void SendFunds(SendFundsRequest request)
         {
             var (sourceAccount, targetAccount, amount) = request;
@@ -65,6 +67,7 @@ namespace accounts.api.pursuit.Controllers
         }
 
         [HttpPost()]
+        [Authorize("admin")]
         public Guid CreateAccount(Account account)
         {
             AccountRepo.Accounts.Add(account);

@@ -10,21 +10,21 @@ function Navigation() {
   const history = useHistory();
 
   function handleLogout() {
-    // setLoginState(null);
-    // history.push('/login');
+    setLoginState(null);
+    history.push('/login');
 
     //UNCOMMENT TO ENABLE OIDC
-    var mgr = new Oidc.UserManager({
-      authority: 'http://id.pursuit.local:5000',
-      client_id: 'Pursuit.Accounts.App',
-      redirect_uri: 'http://accounts.app.pursuit.local:5003/LoginCallback',
-      response_type: 'token id_token',
-      scope: 'openid profile PursuitAccountsApi.ReadAccounts PursuitAccountsApi.Admin',
-      post_logout_redirect_uri: 'http://accounts.app.pursuit.local:5003',
-    });
+    // var mgr = new Oidc.UserManager({
+    //   authority: 'http://id.pursuit.local:5000',
+    //   client_id: 'Pursuit.Accounts.App',
+    //   redirect_uri: 'http://accounts.app.pursuit.local:5003/LoginCallback',
+    //   response_type: 'token id_token',
+    //   scope: 'openid profile PursuitAccountsApi.ReadAccounts PursuitAccountsApi.Admin',
+    //   post_logout_redirect_uri: 'http://accounts.app.pursuit.local:5003',
+    // });
 
-    mgr.signoutRedirect();
-    setLoginState(null);
+    // mgr.signoutRedirect();
+    // setLoginState(null);
   }
 
   return (

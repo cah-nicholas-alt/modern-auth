@@ -35,11 +35,13 @@ class MortgageController(@Autowired var mortgageRepo: MortgageRepo) {
     var authorizeUrl: String = "";
 
     @GetMapping("/mortgages")
+    @PreAuthorize("hasAuthority(\"SCOPE_PursuitMortgageApi.ReadMortgage\")")
     fun getMortgages(principal: Principal) : List<Mortgage> {
         return mortgageRepo.mortgages.filter { m -> m.userId == getUUID(principal.name) };
     }
 
     @PostMapping("/mortgages/apply")
+    @PreAuthorize("hasAuthority(\"SCOPE_PursuitMortgageApi.ApplyMortgage\")")
     fun applyMortgage(@RequestBody application: MortgageApplication, principal: Principal) {
         val token = getAccessToken();
 

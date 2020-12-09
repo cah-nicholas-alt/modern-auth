@@ -37,6 +37,14 @@ namespace accounts.api.pursuit
                     options.RequireHttpsMetadata = false;
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("admin",
+                    policy => policy.RequireClaim("scope", "PursuitAccountsApi.Admin"));
+                options.AddPolicy("read",
+                    policy => policy.RequireClaim("scope", "PursuitAccountsApi.ReadAccounts"));
+            });
+
             services.AddCors();
 
         }

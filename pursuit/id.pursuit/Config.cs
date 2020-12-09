@@ -55,7 +55,7 @@ namespace id.pursuit
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     },
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = new List<string>{ "authorization_code", "password" },
                     RequireClientSecret = false,
                     RedirectUris =
                     {
