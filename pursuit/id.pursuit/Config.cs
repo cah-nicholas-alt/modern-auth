@@ -62,6 +62,7 @@ namespace id.pursuit
                         "http://mortgage.app.pursuit.local:5005/signin-oidc"
                     },
                     PostLogoutRedirectUris = { "http://mortgage.app.pursuit.local:5005/signout-callback-oidc" },
+                    FrontChannelLogoutUri = "http://mortgage.app.pursuit.local:5005/home/frontchannellogout"
                 },
                 new Client
                 {

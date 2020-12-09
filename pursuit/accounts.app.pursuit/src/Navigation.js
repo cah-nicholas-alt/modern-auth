@@ -13,6 +13,7 @@ function Navigation() {
     // setLoginState(null);
     // history.push('/login');
 
+    //UNCOMMENT TO ENABLE OIDC
     var mgr = new Oidc.UserManager({
       authority: 'http://id.pursuit.local:5000',
       client_id: 'Pursuit.Accounts.App',

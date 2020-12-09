@@ -37,7 +37,7 @@ namespace mortgage.app.pursuit.Controllers
 
                 var mortgages = await client.GetFromJsonAsync<List<Mortgage>>("http://mortgage.api.pursuit.local:5002/api/mortgages");
                 var accounts = await client.GetFromJsonAsync<List<Account>>("http://accounts.api.pursuit.local:5001/api/accounts");
-                
+
                 for(int i = 0; i < mortgages.Count; i++)
                 {
                     var balance = accounts.FirstOrDefault(a => a.AccountId == mortgages[i].AccountId)
@@ -89,6 +89,19 @@ namespace mortgage.app.pursuit.Controllers
         public IActionResult Logout()
         {
             return SignOut("Cookies", "oidc");
+        }
+
+        public async Task<IActionResult> FrontChannelLogout(string sid, string iss)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentSid = User.Claims.FirstOrDefault(c => c.Type == "sid")?.Value ?? "";
+                if (string.Equals(currentSid, sid, StringComparison.Ordinal))
+                {
+                    await HttpContext.SignOutAsync();
+                }
+            }
+            return new EmptyResult();
         }
     }
 }

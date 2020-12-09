@@ -84,6 +84,7 @@ import Oidc from 'oidc-client';
 //   );
 // }
 
+//UNCOMMENT TO ENABLE OIDC
 function Login() {
   //Not Suitable for Production, race cases w/ React Re-Rendering need to be resolved...
   const { setLoginState } = useLoginContext();
