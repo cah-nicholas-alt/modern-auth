@@ -31,7 +31,7 @@ function Login() {
 
     fetch('http://id.pursuit.local:5000/connect/token', {
       method: 'POST',
-      body: `grant_type=password&client_id=${client_id}&username=${username}&password=${password}`,
+      body: `grant_type=password&client_id=${client_id}&username=${username}&password=${password}&scope=PursuitAccountsApi.ReadAccounts PursuitAccountsApi.Admin`,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     })
       .then((resp) => {
