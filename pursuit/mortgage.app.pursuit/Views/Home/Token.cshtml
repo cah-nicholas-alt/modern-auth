@@ -1,12 +1,14 @@
-﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication
+
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Token";
 }
 
-@if (User.Identity.IsAuthenticated)
-{
-    <h2>HOME</h2>
+
+<div class="card mt-3 p-3">
+
+    <h2>Claims</h2>
 
     <dl>
         @foreach (var claim in User.Claims)
@@ -25,8 +27,4 @@
             <dd>@prop.Value</dd>
         }
     </dl>
-}
-else
-{
-    <h1>You Must Log In!</h1>
-}
+</div>

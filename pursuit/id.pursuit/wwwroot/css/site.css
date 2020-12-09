@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
 .body-container {
   margin-top: 60px;
   padding-bottom: 40px; }
@@ -23,16 +25,14 @@
   .grants-page .card label {
     font-weight: bold; }
 
-
-    .navBarShort {
-      height: 3rem;
-      max-height: 5rem;
-  }
-
   .logoLarge {
       height: 3rem;
   }
 
   .bg-dark {
     background-color: #13305a!important;
+}
+
+body {
+  font-family: 'Cairo';
 }

@@ -20,13 +20,13 @@ namespace mortgage.app.pursuit.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
-        [AllowAnonymous]
-        public IActionResult Privacy()
+        public IActionResult Token()
         {
             return View();
         }
@@ -35,6 +35,24 @@ namespace mortgage.app.pursuit.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public IActionResult Login()
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("Home/Login")]
+        public IActionResult LoginCallback()
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "oidc");
         }
     }
 }

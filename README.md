@@ -1,7 +1,7 @@
 # Requirements
 Docker or .Net 5.0, Java 11, and Yarn vLatest
 
-# Executing
+# Running on Docker
 ```docker-compose up -d --build```
 
 # Hosts
@@ -23,4 +23,4 @@ Pursuit Mortgage API: http://mortgage.api.pursuit.local:5002
 Coin App: http://app.coin.local:5004
 
 # Cookie Settings
-As we are running locally running on HTTP you will need to enable the chome setting: `Cookies without SameSite must be secure` otherwise chrome may block our non-secure, non-same site cookies.
+As we are running locally running on HTTP (not HTTPS) you will need to enable the chome setting: `Cookies without SameSite must be secure` otherwise chrome may block our non-secure, non-same site cookies.
