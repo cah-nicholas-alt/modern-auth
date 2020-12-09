@@ -6,6 +6,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace id.pursuit
 {
@@ -65,9 +66,21 @@ namespace id.pursuit
                 new Client
                 {
                     ClientId = "Pursuit.Accounts.App",
-                    AllowedScopes = {Scopes.ReadAccounts, Scopes.AccountAdmin },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    RequireClientSecret = false
+                    AllowedScopes =
+                    {
+                        Scopes.ReadAccounts,
+                        Scopes.AccountAdmin,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
+                    AllowedGrantTypes = new List<string>() {"password", "implicit" },
+                    RequireClientSecret = false,
+                    RedirectUris =
+                    {
+                        "http://accounts.app.pursuit.local:5003/LoginCallback"
+                    },
+                    PostLogoutRedirectUris = { "http://accounts.app.pursuit.local:5003" },
+                    AllowAccessTokensViaBrowser = true,
                 },
                 new Client
                 {
