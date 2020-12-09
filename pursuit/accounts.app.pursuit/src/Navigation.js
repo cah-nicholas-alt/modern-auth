@@ -3,14 +3,27 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useLoginContext } from './LoginContext';
 import { useHistory } from 'react-router-dom';
+import Oidc from 'oidc-client';
 
 function Navigation() {
   const { loginState, setLoginState } = useLoginContext();
   const history = useHistory();
 
   function handleLogout() {
+    // setLoginState(null);
+    // history.push('/login');
+
+    var mgr = new Oidc.UserManager({
+      authority: 'http://id.pursuit.local:5000',
+      client_id: 'Pursuit.Accounts.App',
+      redirect_uri: 'http://accounts.app.pursuit.local:5003/LoginCallback',
+      response_type: 'token id_token',
+      scope: 'openid profile PursuitAccountsApi.ReadAccounts PursuitAccountsApi.Admin',
+      post_logout_redirect_uri: 'http://accounts.app.pursuit.local:5003',
+    });
+
+    mgr.signoutRedirect();
     setLoginState(null);
-    history.push('/login');
   }
 
   return (

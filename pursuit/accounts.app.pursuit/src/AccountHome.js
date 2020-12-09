@@ -26,7 +26,7 @@ function AccountHome() {
   return (
     <Container className="mt-3">
       {account.map((a) => (
-        <Card className="text-dark p-3 mt-3">
+        <Card className="text-dark p-3 mt-3" key={a.accountId}>
           <div>{a.accountName}</div>
           <div>Balance: {a && a.balance}</div>
         </Card>

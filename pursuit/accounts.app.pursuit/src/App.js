@@ -27,6 +27,7 @@ function App() {
       <Router>
         <Navigation />
         <Switch>
+          <Route path="/LoginCallback" component={Login} />
           <Route path="/Login" component={Login} />
           {loginState ? (
             <>
