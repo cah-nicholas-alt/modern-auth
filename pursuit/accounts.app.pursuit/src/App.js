@@ -5,6 +5,7 @@ import Login from './Login';
 import { LoginContext } from './LoginContext';
 import { useEffect, useState } from 'react';
 import Token from './Token';
+import LoginCallback from './LoginCallback';
 
 function App() {
   let initLoginState = localStorage.getItem('session');
@@ -27,7 +28,7 @@ function App() {
       <Router>
         <Navigation />
         <Switch>
-          <Route path="/LoginCallback" component={Login} />
+          <Route path="/LoginCallback" component={LoginCallback} />
           <Route path="/Login" component={Login} />
           {loginState ? (
             <>
