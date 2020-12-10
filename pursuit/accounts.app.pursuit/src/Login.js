@@ -87,7 +87,6 @@ import Oidc from 'oidc-client';
 
 //UNCOMMENT TO ENABLE OIDC
 function Login() {
-  //Not Suitable for Production, race cases w/ React Re-Rendering need to be resolved...
   useEffect(() => {
     var mgr = new Oidc.UserManager({
       authority: 'http://id.pursuit.local:5000',
