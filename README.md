@@ -14,7 +14,7 @@ Pursuit Id: http://id.pursuit.local:5000
 
 Pursuit Account App: http://accounts.app.pursuit.local:5003
 
-Pursuit Mortgage App:
+Pursuit Mortgage App: http://mortgages.app.pursuit.local:5005
 
 Pursuit Acount API: http://accounts.api.pursuit.local:5001
 
