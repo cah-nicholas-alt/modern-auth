@@ -7,7 +7,7 @@ Docker or .Net 5.0, Java 11, and Yarn vLatest
 # Hosts
 In order to demonstrate the cross domain capabilities of OAUTH and OIDC add the following host aliases to your systems host file
 
-```127.0.0.1 id.pursuit.local accounts.api.pursuit.local mortgage.api.pursuit.local accounts.app.pursuit.local mortgage.app.pursuit.local app.coin.local```
+```127.0.0.1 localhost id.pursuit.local accounts.api.pursuit.local mortgage.api.pursuit.local accounts.app.pursuit.local mortgage.app.pursuit.local app.coin.local```
 
 # Applications
 Pursuit Id: http://id.pursuit.local:5000
